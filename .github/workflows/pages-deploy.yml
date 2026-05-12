@@ -50,6 +50,11 @@ jobs:
         env:
           JEKYLL_ENV: "production"
 
+      # === 加密特定笔记 ===
+      - name: Encrypt specific posts
+        run: |
+          find "_site${{ steps.pages.outputs.base_path }}/posts" -path "*/secret/*" -name "*.html" | xargs -I {} npx staticrypt {} -p "cat" --shorten
+
       - name: Test site
         run: |
           bundle exec htmlproofer _site \
